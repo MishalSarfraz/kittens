@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitten Profiles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #667eea;
+            margin: 3rem 0 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-card h3 {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-card .breed {
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card .personality {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .activities-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .activity-card:hover {
+            transform: scale(1.05);
+        }
+
+        .activity-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .activity-info {
+            padding: 1rem;
+            background: white;
+        }
+
+        .activity-info h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .timeline-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            margin-left: 5%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 5%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .timeline-content h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .timeline-content .age {
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                width: 100% !important;
+                margin-left: 50px !important;
+                margin-right: 0 !important;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        .paw-print {
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span class="paw-print">🐾</span> Kittens  <span class="paw-print">🐾</span></h1>
+        <p>Where Every Kitten Has a Story</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#profiles">Kitten Profiles</a></li>
+            <li><a href="#activities">Activities</a></li>
+            <li><a href="#timeline">Development Timeline</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Profiles Section -->
+        <section id="profiles">
+            <h2 class="section-title">Meet Our Adorable Kittens</h2>
+            <div class="profiles-grid">
+                <div class="profile-card">
+                    <div class="profile-image">🐱</div>
+                    <h3>Luna</h3>
+                    <p class="breed">Persian • Female</p>
+                    <p class="personality">Playful and curious with a love for napping in sunny spots. Luna enjoys interactive toys and gentle cuddles.</p>
+                    <button class="download-btn" onclick="downloadProfile('Luna', 'Persian', 'Playful and curious with a love for napping in sunny spots. Luna enjoys interactive toys and gentle cuddles.')">📥 Download Full Profile</button>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-image">😺</div>
+                    <h3>Oliver</h3>
+                    <p class="breed">Maine Coon • Male</p>
+                    <p class="personality">Gentle giant with a friendly demeanor. Oliver loves climbing and exploring new heights, always ready for an adventure.</p>
+                    <button class="download-btn" onclick="downloadProfile('Oliver', 'Maine Coon', 'Gentle giant with a friendly demeanor. Oliver loves climbing and exploring new heights, always ready for an adventure.')">📥 Download Full Profile</button>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-image">😸</div>
+                    <h3>Milo</h3>
+                    <p class="breed">Siamese • Male</p>
+                    <p class="personality">Vocal and affectionate companion who loves attention. Milo is intelligent and enjoys puzzle toys and interactive play.</p>
+                    <button class="download-btn" onclick="downloadProfile('Milo', 'Siamese', 'Vocal and affectionate companion who loves attention. Milo is intelligent and enjoys puzzle toys and interactive play.')">📥 Download Full Profile</button>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-image">😻</div>
+                    <h3>Bella</h3>
+                    <p class="breed">British Shorthair • Female</p>
+                    <p class="personality">Calm and dignified with a sweet nature. Bella prefers quiet environments and enjoys being brushed and pampered.</p>
+                    <button class="download-btn" onclick="downloadProfile('Bella', 'British Shorthair', 'Calm and dignified with a sweet nature. Bella prefers quiet environments and enjoys being brushed and pampered.')">📥 Download Full Profile</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="activities" class="activities-section">
+            <h2 class="section-title">Kitten Activities</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterActivities('all')">All</button>
+                <button class="filter-btn" onclick="filterActivities('playing')">Playing</button>
+                <button class="filter-btn" onclick="filterActivities('sleeping')">Sleeping</button>
+                <button class="filter-btn" onclick="filterActivities('eating')">Eating</button>
+            </div>
+
+            <div class="activities-grid" id="activitiesGrid">
+                <div class="activity-card" data-category="playing">
+                    <div class="activity-image">🎾</div>
+                    <div class="activity-info">
+                        <h4>Playtime Fun</h4>
+                        <p>Luna chasing her favorite feather toy around the living room!</p>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="sleeping">
+                    <div class="activity-image">😴</div>
+                    <div class="activity-info">
+                        <h4>Nap Time</h4>
+                        <p>Oliver taking his afternoon nap in the cozy cat bed.</p>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="playing">
+                    <div class="activity-image">🧶</div>
+                    <div class="activity-info">
+                        <h4>Yarn Ball Adventure</h4>
+                        <p>Milo discovered the yarn basket - pure joy!</p>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="eating">
+                    <div class="activity-image">🍖</div>
+                    <div class="activity-info">
+                        <h4>Dinner Time</h4>
+                        <p>Bella enjoying her favorite salmon treats.</p>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="playing">
+                    <div class="activity-image">📦</div>
+                    <div class="activity-info">
+                        <h4>Box Exploration</h4>
+                        <p>Luna found a new cardboard box - her new favorite spot!</p>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="sleeping">
+                    <div class="activity-image">🌙</div>
+                    <div class="activity-info">
+                        <h4>Sweet Dreams</h4>
+                        <p>Milo curled up for his evening rest.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h3 style="color: #667eea; margin-bottom: 1rem; text-align: center;">Featured Video</h3>
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        🎬<br>
+                        <div style="font-size: 1rem; margin-top: 1rem;">Kitten Playtime Compilation</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="timeline-section">
+            <h2 class="section-title">Development Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Week 1-2: Newborn Stage</h4>
+                        <p class="age">0-2 weeks old</p>
+                        <p>Eyes closed, completely dependent on mother. Sleeping 90% of the day. Starting to develop sense of smell and touch.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Week 3-4: Opening Eyes</h4>
+                        <p class="age">3-4 weeks old</p>
+                        <p>Eyes opening to reveal beautiful blue color. Beginning to take wobbly first steps. Starting to show curiosity about surroundings.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Week 5-8: Socialization</h4>
+                        <p class="age">5-8 weeks old</p>
+                        <p>Playful personality emerging! Learning to interact with siblings. Beginning to use litter box. Teeth coming in and starting to eat solid food.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Week 9-12: Growing Up</h4>
+                        <p class="age">9-12 weeks old</p>
+                        <p>Fully weaned and independent. Coordinated movements and agile climbing. Personality fully developed. Ready for forever home!</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Month 4-6: Young Adult</h4>
+                        <p class="age">4-6 months old</p>
+                        <p>Rapid growth phase. Adult teeth replacing baby teeth. Full of energy and mischief. Learning boundaries and house rules.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Month 7-12: Adolescence</h4>
+                        <p class="age">7-12 months old</p>
+                        <p>Reaching adult size. Personality maturing. Strong bond formed with family. Playful but showing more independence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function downloadProfile(name, breed, personality) {
+            const profileData = `
+WHISKER HAVEN - KITTEN PROFILE
+================================
+
+Name: ${name}
+Breed: ${breed}
+Personality: ${personality}
+
+Full Details:
+-------------
+• Health: Excellent condition, up-to-date on vaccinations
+• Diet: Premium kitten food, morning and evening meals
+• Activity Level: High energy, loves to play
+• Temperament: Friendly and affectionate
+• Special Needs: None
+• Adoption Status: Available for loving homes
+
+Care Instructions:
+------------------
+• Regular feeding schedule (2-3 times daily)
+• Fresh water available at all times
+• Daily playtime and interaction
+• Weekly grooming sessions
+• Annual vet check-ups
+
+Contact Information:
+--------------------
+Whisker Haven Rescue
+Email: info@whiskerhaven.com
+Phone: (555) 123-4567
+
+Generated: ${new Date().toLocaleDateString()}
+            `;
+
+            const blob = new Blob([profileData], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}_Profile.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function filterActivities(category) {
+            const cards = document.querySelectorAll('.activity-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
